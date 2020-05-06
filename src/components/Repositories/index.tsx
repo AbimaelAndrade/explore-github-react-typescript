@@ -4,12 +4,24 @@ import * as S from './styled';
 
 import RepositoryItem from '../RepositoryItem';
 
-const Repositories: React.FC = () => (
+interface Repository {
+  full_name: string;
+  description: string;
+  owner: {
+    login: string;
+    avatar_url: string;
+  };
+}
+
+interface Props {
+  repositories: Repository[];
+}
+
+const Repositories: React.FC<Props> = ({ repositories }) => (
   <S.Repositories>
-    <RepositoryItem />
-    <RepositoryItem />
-    <RepositoryItem />
-    <RepositoryItem />
+    {repositories.map((repository, index) => (
+      <RepositoryItem key={`repository-${index}`} repository={repository} />
+    ))}
   </S.Repositories>
 );
 

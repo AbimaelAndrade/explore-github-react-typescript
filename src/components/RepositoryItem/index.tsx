@@ -3,15 +3,25 @@ import { FiChevronRight } from 'react-icons/fi';
 
 import * as S from './styled';
 
-const RepositoryItem: React.FC = () => (
+interface Repository {
+  full_name: string;
+  description: string;
+  owner: {
+    login: string;
+    avatar_url: string;
+  };
+}
+
+interface Props {
+  repository: Repository;
+}
+
+const RepositoryItem: React.FC<Props> = ({ repository }) => (
   <S.Repository href="#">
-    <img
-      src="https://avatars3.githubusercontent.com/u/8979115?s=460&u=9c99b206bf3f39f5296479783bcc34773f3f6f4a&v=4"
-      alt="Abimael Andrade"
-    />
+    <img src={repository.owner.avatar_url} alt={repository.owner.login} />
     <div>
-      <strong>@abimaelandrade/fibonacci-nodejs</strong>
-      <p>Desafio Fibonacci usando NodeJS (Codenation)</p>
+      <strong>{repository.full_name}</strong>
+      <p>{repository.description}</p>
     </div>
     <FiChevronRight size={20} />
   </S.Repository>

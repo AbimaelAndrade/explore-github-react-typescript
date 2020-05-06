@@ -1,7 +1,11 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { shade } from 'polished';
 
-const Form = styled.form`
+interface FormProps {
+  hasError: boolean;
+}
+
+const Form = styled.form<FormProps>`
   margin-top: 40px;
   max-width: 700px;
 
@@ -18,6 +22,14 @@ const Form = styled.form`
     padding: 0 24px;
     border-radius: 5px 0 0 5px;
     color: #3a3a3a;
+    border: 2px solid #fff;
+    border-right: 0;
+
+    ${({ hasError }) =>
+      hasError &&
+      css`
+        border-color: #c53030;
+      `}
 
     &::placeholder {
       color: #a8a8a8;
