@@ -17,7 +17,7 @@ interface Props {
 }
 
 const RepositoryItem: React.FC<Props> = ({ repository }) => (
-  <S.Repository href="#">
+  <S.Repository to={`/repositories/${repository.full_name}`}>
     <img src={repository.owner.avatar_url} alt={repository.owner.login} />
     <div>
       <strong>{repository.full_name}</strong>

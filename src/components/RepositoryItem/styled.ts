@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-export const Repository = styled.a`
+export const Repository = styled(Link)`
   background: #fff;
   border-radius: 5px;
   width: 100%;

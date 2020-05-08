@@ -31,6 +31,10 @@ const Dashboard: React.FC = () => {
     return [];
   });
 
+  function handleRemoveError() {
+    setTimeout(() => setInputError(''), 3000);
+  }
+
   useEffect(() => {
     localStorage.setItem(
       '@githubExplore:repositories',
@@ -41,6 +45,7 @@ const Dashboard: React.FC = () => {
   async function handleRepositories(repository: string): Promise<void> {
     if (!repository) {
       setInputError('Digite o autor/nome do repositório.');
+      handleRemoveError();
       return;
     }
     try {
@@ -52,13 +57,14 @@ const Dashboard: React.FC = () => {
       setInputError('');
     } catch (err) {
       setInputError('Erro na busca por esse repositório.');
+      handleRemoveError();
     }
   }
 
   return (
     <>
       <img src={Logo} alt="Logo Rockseat" />
-      <H1>Explore repositóris no Github</H1>
+      <H1>Explore repositórios no Github</H1>
       <FormSearch onSubmit={handleRepositories} hasError={!!inputError} />
 
       {inputError && <Error>{inputError}</Error>}
