@@ -49,11 +49,21 @@ const Dashboard: React.FC = () => {
       return;
     }
     try {
+      const existRepository = repositories.find(
+        (repo) => repo.full_name === repository,
+      );
+
+      if (existRepository) {
+        setInputError('O repositório já foi cadastrado.');
+        handleRemoveError();
+        return;
+      }
+
       const response = await api.get<Repository>(`repos/${repository}`);
 
       const repo = response.data;
 
-      setRepositories([...repositories, repo]);
+      setRepositories([repo, ...repositories]);
       setInputError('');
     } catch (err) {
       setInputError('Erro na busca por esse repositório.');
