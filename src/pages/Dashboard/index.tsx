@@ -1,4 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
+
+import { fetchRepositories, handleAddRepository } from '../../store/actions';
+
 import api from '../../services/api';
 
 import H1 from '../../components/H1';
@@ -17,30 +23,30 @@ interface Repository {
   };
 }
 
-const Dashboard: React.FC = () => {
+interface Props {
+  repositories: Repository[];
+  getRepositories: () => void;
+  addRepository: (repository: Repository) => void;
+}
+
+interface State {
+  repositories: Repository[];
+}
+
+const Dashboard: React.FC<Props> = ({
+  repositories,
+  getRepositories,
+  addRepository,
+}) => {
   const [inputError, setInputError] = useState('');
-  const [repositories, setRepositories] = useState<Repository[]>(() => {
-    const storedRepositories = localStorage.getItem(
-      '@githubExplore:repositories',
-    );
-
-    if (storedRepositories) {
-      return JSON.parse(storedRepositories);
-    }
-
-    return [];
-  });
 
   function handleRemoveError() {
     setTimeout(() => setInputError(''), 3000);
   }
 
   useEffect(() => {
-    localStorage.setItem(
-      '@githubExplore:repositories',
-      JSON.stringify(repositories),
-    );
-  }, [repositories]);
+    getRepositories();
+  }, []);
 
   async function handleRepositories(repository: string): Promise<void> {
     if (!repository) {
@@ -63,7 +69,7 @@ const Dashboard: React.FC = () => {
 
       const repo = response.data;
 
-      setRepositories([repo, ...repositories]);
+      addRepository(repo);
       setInputError('');
     } catch (err) {
       setInputError('Erro na busca por esse repositório.');
@@ -84,4 +90,14 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard;
+const mapStateToProps = (state: State) => ({
+  repositories: state.repositories,
+});
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => ({
+  getRepositories: () => dispatch(fetchRepositories()),
+  addRepository: (repository: Repository) =>
+    dispatch(handleAddRepository(repository)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
