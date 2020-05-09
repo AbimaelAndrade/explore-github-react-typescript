@@ -36,4 +36,8 @@ export const Tooltip = styled.span`
     border-style: solid;
     border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
   }
+
+  @media (max-width: 620px) {
+    display: none;
+  }
 `;
