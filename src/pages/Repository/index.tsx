@@ -51,8 +51,6 @@ const Repository: React.FC = () => {
         api.get(`/repos/${params.repository}/issues`),
       ]);
 
-      console.log(repository.data);
-
       setRepository(repository.data);
       setIssues(issues.data);
     };
@@ -113,7 +111,12 @@ const Repository: React.FC = () => {
 
       <S.Issues>
         {issues.map((issue) => (
-          <a key={issue.id} href={issue.html_url} target="_blank">
+          <a
+            key={issue.id}
+            href={issue.html_url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <div>
               <strong>{issue.title}</strong>
               <p>{issue.user.login}</p>

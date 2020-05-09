@@ -1,8 +1,6 @@
 import * as types from '../../constants/ActionTypes';
 import { Dispatch } from 'redux';
 
-import api from '../../services/api';
-
 interface Repository {
   full_name: string;
   description: string;
